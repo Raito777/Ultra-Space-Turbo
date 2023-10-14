@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import * as CANNON from "cannon-es";
+
 import Debug from "./Utils/Debug.js";
 
 import Sizes from "./Utils/Sizes.js";
@@ -8,7 +10,7 @@ import Renderer from "./Renderer.js";
 import World from "./World/World.js";
 import Resources from "./Utils/Resources.js";
 import sources from "./sources.js";
-import * as CANNON from "cannon-es";
+import Controls from "./Controls.js";
 
 let instance = null;
 
@@ -36,6 +38,7 @@ export default class Game {
     this.camera = new Camera();
     this.renderer = new Renderer();
     this.world = new World();
+    this.controls = new Controls();
 
     /**
      * Physics
@@ -50,7 +53,7 @@ export default class Game {
       this.defaultMaterial,
       this.defaultMaterial,
       {
-        friction: 0.1,
+        friction: 0.001,
         restitution: 0.7,
       }
     );
@@ -76,8 +79,10 @@ export default class Game {
   }
 
   update() {
-    this.camera.update();
-    this.renderer.update();
-    this.world.update();
+    if (this.world.ready) {
+      this.camera.update();
+      this.renderer.update();
+      this.world.update();
+    }
   }
 }

@@ -16,18 +16,18 @@ export default class Camera {
 
   setInstance() {
     this.instance = new THREE.PerspectiveCamera(
-      35,
+      90,
       this.sizes.width / this.sizes.height,
       0.1,
-      100
+      2000
     );
-    this.instance.position.set(6, 4, 8);
+    this.instance.position.set(0, 2, 10);
     this.scene.add(this.instance);
   }
 
   setControls() {
-    this.controls = new OrbitControls(this.instance, this.canvas);
-    this.controls.enableDamping = true;
+    // this.controls = new OrbitControls(this.instance, this.canvas);
+    // this.controls.enableDamping = true;
   }
 
   resize() {
@@ -35,6 +35,6 @@ export default class Camera {
     this.instance.updateProjectionMatrix();
   }
   update() {
-    this.controls.update();
+    // this.controls.update();
   }
 }

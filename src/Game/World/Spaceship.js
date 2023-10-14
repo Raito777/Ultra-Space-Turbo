@@ -15,6 +15,9 @@ export default class Spaceship {
 
   setModel() {
     this.model = this.resource.scene;
+    this.model.position.set(0, 0, 0);
+    this.model.rotation.y = Math.PI;
+    console.log(this.model.position);
     // this.model.scale.set(0.02, 0.02, 0.02);
     this.scene.add(this.model);
 

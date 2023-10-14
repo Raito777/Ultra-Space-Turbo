@@ -6,6 +6,13 @@ export default class World {
   constructor() {
     this.game = new Game();
     this.scene = this.game.scene;
+    this.resources = this.game.resources;
+
+    // Wait for resources
+    this.resources.on("ready", () => {
+      // Setup
+      this.environment = new Environment();
+    });
 
     // Test mesh
     const testMesh = new THREE.Mesh(
@@ -13,7 +20,5 @@ export default class World {
       new THREE.MeshStandardMaterial({ wireframe: false })
     );
     this.scene.add(testMesh);
-
-    this.environment = new Environment();
   }
 }

@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import Game from "../Game.js";
 import Environment from "./Environment.js";
+import Spaceship from "./Spaceship.js";
+import Asteroid from "./Asteroid.js";
 
 export default class World {
   constructor() {
@@ -11,14 +13,9 @@ export default class World {
     // Wait for resources
     this.resources.on("ready", () => {
       // Setup
+      this.spaceship = new Spaceship();
+      this.asteroid = new Asteroid();
       this.environment = new Environment();
     });
-
-    // Test mesh
-    const testMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshStandardMaterial({ wireframe: false })
-    );
-    this.scene.add(testMesh);
   }
 }

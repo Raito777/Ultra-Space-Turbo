@@ -3,12 +3,17 @@ export default [
     name: "environmentMapTexture",
     type: "cubeTexture",
     path: [
-      "textures/environmentMap/px.png",
-      "textures/environmentMap/nx.png",
-      "textures/environmentMap/py.png",
-      "textures/environmentMap/ny.png",
-      "textures/environmentMap/pz.png",
-      "textures/environmentMap/nz.png",
+      "textures/environmentMap/space/px.png",
+      "textures/environmentMap/space/nx.png",
+      "textures/environmentMap/space/py.png",
+      "textures/environmentMap/space/ny.png",
+      "textures/environmentMap/space/pz.png",
+      "textures/environmentMap/space/nz.png",
     ],
+  },
+  {
+    name: "spaceshipModel",
+    type: "gltfModel",
+    path: "models/spaceship/spaceship.gltf",
   },
 ];

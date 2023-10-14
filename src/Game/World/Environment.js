@@ -23,7 +23,7 @@ export default class Environment {
 
   setEnvironmentMap() {
     this.environmentMap = {};
-    this.environmentMap.intensity = 0.4;
+    this.environmentMap.intensity = 0.5;
     this.environmentMap.texture = this.resources.items.environmentMapTexture;
     this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace;
 

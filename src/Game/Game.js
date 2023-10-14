@@ -8,6 +8,7 @@ import Renderer from "./Renderer.js";
 import World from "./World/World.js";
 import Resources from "./Utils/Resources.js";
 import sources from "./sources.js";
+import * as CANNON from "cannon-es";
 
 let instance = null;
 
@@ -36,6 +37,26 @@ export default class Game {
     this.renderer = new Renderer();
     this.world = new World();
 
+    /**
+     * Physics
+     */
+    this.physicWorld = new CANNON.World();
+
+    this.physicWorld.broadphase = new CANNON.SAPBroadphase(this.physicWorld);
+    this.physicWorld.allowSleep = true;
+
+    this.defaultMaterial = new CANNON.Material("default");
+    const defaultContactMaterial = new CANNON.ContactMaterial(
+      this.defaultMaterial,
+      this.defaultMaterial,
+      {
+        friction: 0.1,
+        restitution: 0.7,
+      }
+    );
+
+    this.physicWorld.addContactMaterial(defaultContactMaterial);
+
     //Events
 
     //resize event
@@ -57,5 +78,6 @@ export default class Game {
   update() {
     this.camera.update();
     this.renderer.update();
+    this.world.update();
   }
 }

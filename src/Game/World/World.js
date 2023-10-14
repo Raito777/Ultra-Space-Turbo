@@ -6,6 +6,7 @@ import Asteroid from "./Asteroid.js";
 
 export default class World {
   constructor() {
+    this.objectsToUpdate = [];
     this.game = new Game();
     this.scene = this.game.scene;
     this.resources = this.game.resources;
@@ -16,6 +17,16 @@ export default class World {
       this.spaceship = new Spaceship();
       this.asteroid = new Asteroid();
       this.environment = new Environment();
+      console.log(this.objectsToUpdate);
     });
+  }
+
+  update() {
+    this.game.physicWorld.step(1 / 60, this.game.time.delta, 3);
+
+    for (const object of this.objectsToUpdate) {
+      object.mesh.position.copy(object.body.position);
+      object.mesh.quaternion.copy(object.body.quaternion);
+    }
   }
 }

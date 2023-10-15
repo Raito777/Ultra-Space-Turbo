@@ -35,11 +35,15 @@ export default class Game {
     this.time = new Time();
     this.scene = new THREE.Scene();
     this.resources = new Resources(sources);
-    this.camera = new Camera();
     this.renderer = new Renderer();
     this.world = new World();
-    this.controls = new Controls();
+    this.resources.on("ready", () => {
+      console.log(this.world.spaceship);
+      this.camera = new Camera();
+      this.renderer = new Renderer();
+    });
 
+    this.controls = new Controls();
     /**
      * Physics
      */

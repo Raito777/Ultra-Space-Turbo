@@ -22,6 +22,7 @@ export default class World {
     this.resources.on("ready", () => {
       // Setup
       this.spaceship = new Spaceship();
+
       this.setAsteroidsModel();
       for (let i = 0; i < 20; i++) {
         this.asteroids.push(
@@ -80,14 +81,12 @@ export default class World {
         z: getRandomFloat(-50, -40),
       })
     );
-
-    console.log("push");
     setTimeout(() => this.pushAsteroids(), 100);
   }
 
   move() {
     // this.velocity = new CANNON.Vec3(0, 0, 0); // Réinitialisez la vitesse
-    // this.forces = new CANNON.Vec3(0, 0, 3.1);
+    this.forces = new CANNON.Vec3(0, 0, 3.1);
 
     if (this.game.controls.keys.Z) {
       this.forces.y = 3.1;
@@ -103,8 +102,6 @@ export default class World {
     if (this.game.controls.keys.D) {
       this.forces.x = -3.1;
     }
-
-    console.log("velocity 1" + this.velocity);
 
     for (let i = 0; i < this.asteroids.length; i++) {
       this.asteroids[i].body.applyLocalForce(

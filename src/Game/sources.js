@@ -3,12 +3,12 @@ export default [
     name: "environmentMapTexture",
     type: "cubeTexture",
     path: [
-      "textures/environmentMap/space/px.png",
-      "textures/environmentMap/space/nx.png",
-      "textures/environmentMap/space/py.png",
-      "textures/environmentMap/space/ny.png",
-      "textures/environmentMap/space/pz.png",
-      "textures/environmentMap/space/nz.png",
+      "textures/environmentMap/planet/px.png",
+      "textures/environmentMap/planet/nx.png",
+      "textures/environmentMap/planet/py.png",
+      "textures/environmentMap/planet/ny.png",
+      "textures/environmentMap/planet/pz.png",
+      "textures/environmentMap/planet/nz.png",
     ],
   },
   {

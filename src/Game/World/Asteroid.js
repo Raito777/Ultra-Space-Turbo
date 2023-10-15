@@ -41,7 +41,6 @@ export default class Asteroid {
     this.game.physicWorld.addBody(this.body);
 
     // body.addEventListener("collide", playHitSound);
-    console.log(this.body);
 
     // Save in objects to update
     this.world.objectsToUpdate.push({

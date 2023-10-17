@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import Game from "../Game.js";
+import { getRandomFloat } from "../Utils/functions.js";
 
 export default class Asteroid {
   constructor(radius, position) {
@@ -15,23 +16,22 @@ export default class Asteroid {
     this.create(radius, position);
   }
 
-  create(radius, position) {
+  create(radius, position, rotation) {
     this.position = position;
+    var model = this.world.asteroidsModel.clone();
+    // Définissez une rotation aléatoire autour de l'axe Y
+    model.rotation.set(rotation);
+    // model.rotation.set(rotation);
+    model.scale.set(radius, radius, radius);
+    model.position.copy(position);
 
-    const mesh = new THREE.Mesh(
-      this.world.sphereGeometry,
-      this.world.sphereMaterial
-    );
-    mesh.scale.set(radius, radius, radius);
-
-    mesh.position.copy(position);
-    this.scene.add(mesh);
+    this.scene.add(model);
 
     // Cannon.js body
-    const shape = new CANNON.Sphere(radius);
+    const shape = new CANNON.Sphere(radius * 1.2);
 
     this.body = new CANNON.Body({
-      mass: 100,
+      mass: 1,
       position: new CANNON.Vec3(0, 3, 0),
       shape: shape,
       material: this.game.defaultMaterial,
@@ -44,7 +44,7 @@ export default class Asteroid {
 
     // Save in objects to update
     this.world.objectsToUpdate.push({
-      mesh: mesh,
+      mesh: model,
       body: this.body,
     });
   }

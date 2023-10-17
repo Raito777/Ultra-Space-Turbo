@@ -44,7 +44,7 @@ export default class Spaceship {
     const shape = new CANNON.Box(new CANNON.Vec3(4.5, 2, 5.5));
 
     this.body = new CANNON.Body({
-      mass: 100,
+      mass: 5,
       position: new CANNON.Vec3(0, 3, 0),
       shape: shape,
       material: this.game.defaultMaterial,
@@ -69,7 +69,18 @@ export default class Spaceship {
 
     this.scene.add(this.model);
 
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x00ff00, // Couleur verte (en hexadécimal)
+      wireframe: true,
+    });
+
+    this.debug = this.game.debug;
+
     this.model.traverse((child) => {
+      if (child.isMesh) {
+        this.spaceshipMaterial = child.material;
+        this.spaceShipTextures = this.spaceshipMaterial;
+      }
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
       }

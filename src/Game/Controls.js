@@ -19,7 +19,6 @@ export default class Controls extends EventEmitter {
       // Vérifier quelle touche a été enfoncée (par exemple, W, A, S, D)
       if (e && e.keyCode) {
         const keyCode = e.keyCode;
-        console.log(keyCode);
         if (keyCode === 90) {
           // Z key
           this.keys.Z = true;

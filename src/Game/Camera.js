@@ -44,7 +44,7 @@ export default class Camera {
       90,
       this.sizes.width / this.sizes.height,
       0.1,
-      2000
+      4000
     );
     this.scene.add(this.instance);
     this.instance.position.copy(this.spaceship.position);

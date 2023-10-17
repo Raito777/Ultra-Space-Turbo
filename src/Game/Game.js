@@ -57,14 +57,28 @@ export default class Game {
       this.defaultMaterial,
       this.defaultMaterial,
       {
-        friction: 0.001,
+        friction: 0,
         restitution: 0.7,
       }
     );
 
     this.physicWorld.addContactMaterial(defaultContactMaterial);
 
-    this.cannonDebugger = new CannonDebugger(this.scene, this.physicWorld, {});
+    this.showHitBoxes = false;
+    this.debugFolder = this.debug.ui.addFolder("debug");
+
+    if (this.debug.active) {
+      this.cannonDebugger = new CannonDebugger(this.scene, this.physicWorld, {
+        onInit(body, mesh) {
+          // Toggle visibiliy on "h" press
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "h") {
+              mesh.visible = !mesh.visible;
+            }
+          });
+        },
+      });
+    }
 
     //Events
 

@@ -2,7 +2,6 @@ import * as THREE from "three";
 
 import Game from "./Game.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import Spaceship from "./World/Spaceship.js";
 
 export default class Camera {
   constructor() {
@@ -52,20 +51,41 @@ export default class Camera {
   }
 
   setControls() {
-    this.controls = new OrbitControls(this.instance, this.canvas);
-    this.controls.enableDamping = true;
+    // this.controls = new OrbitControls(this.instance, this.canvas);
+    // this.controls.enableDamping = true;
   }
 
   resize() {
     this.instance.aspect = this.sizes.width / this.sizes.height;
     this.instance.updateProjectionMatrix();
   }
-  update() {
-    this.instance.position.copy(this.spaceship.position);
-    this.instance.position.x -= this.cameraDistance;
-    this.instance.position.y += this.cameraHeight;
-    this.instance.lookAt(this.spaceship.position);
 
-    this.controls.update();
+  update() {
+    // Copiez la position du vaisseau sur la caméra
+    this.instance.position.copy(this.spaceship.position);
+
+    // Ajustez la position de la caméra derrière le vaisseau
+    const offsetVector = new THREE.Vector3(0, 0, -this.cameraDistance);
+    offsetVector.applyEuler(this.spaceship.model.rotation);
+
+    // Ajustez également la hauteur de la caméra
+    offsetVector.y += this.cameraHeight;
+
+    // Appliquez la position relative au vaisseau
+    this.instance.position.add(offsetVector);
+
+    // Copiez la rotation du vaisseau dans un quaternion
+    const spaceshipQuaternion = new THREE.Quaternion();
+    spaceshipQuaternion.setFromEuler(this.spaceship.model.rotation);
+
+    // Effectuez une rotation de 180 degrés (π radians) autour de l'axe Y (pour éviter l'inversion)
+    const cameraQuaternion = new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(0, 1, 0),
+      Math.PI
+    );
+    spaceshipQuaternion.multiply(cameraQuaternion);
+
+    // Appliquez le quaternion sur la caméra
+    this.instance.setRotationFromQuaternion(spaceshipQuaternion);
   }
 }

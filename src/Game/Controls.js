@@ -12,12 +12,14 @@ export default class Controls extends EventEmitter {
       Q: false,
       S: false,
       D: false,
+      Space: false,
     };
 
     document.addEventListener("keydown", (e) => {
       // Vérifier quelle touche a été enfoncée (par exemple, W, A, S, D)
       if (e && e.keyCode) {
         const keyCode = e.keyCode;
+        console.log(keyCode);
         if (keyCode === 90) {
           // Z key
           this.keys.Z = true;
@@ -34,6 +36,9 @@ export default class Controls extends EventEmitter {
           // D key
           this.keys.D = true;
           this.trigger("moveRight");
+        } else if (keyCode === 32) {
+          this.keys.Space = true;
+          this.trigger("space");
         }
       }
     });
@@ -53,6 +58,9 @@ export default class Controls extends EventEmitter {
         } else if (keyCode === 68) {
           // D key
           this.keys.D = false;
+        } else if (keyCode === 32) {
+          this.keys.Space = false;
+          this.trigger("space");
         }
       }
     });

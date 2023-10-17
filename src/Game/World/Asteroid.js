@@ -31,7 +31,7 @@ export default class Asteroid {
     const shape = new CANNON.Sphere(radius);
 
     this.body = new CANNON.Body({
-      mass: 1,
+      mass: 100,
       position: new CANNON.Vec3(0, 3, 0),
       shape: shape,
       material: this.game.defaultMaterial,

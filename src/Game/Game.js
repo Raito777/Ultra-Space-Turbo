@@ -11,6 +11,7 @@ import World from "./World/World.js";
 import Resources from "./Utils/Resources.js";
 import sources from "./sources.js";
 import Controls from "./Controls.js";
+import CannonDebugger from "cannon-es-debugger";
 
 let instance = null;
 
@@ -37,13 +38,12 @@ export default class Game {
     this.resources = new Resources(sources);
     this.renderer = new Renderer();
     this.world = new World();
-    this.resources.on("ready", () => {
-      console.log(this.world.spaceship);
-      this.camera = new Camera();
-      this.renderer = new Renderer();
-    });
+    console.log(this.world.spaceship);
+    this.camera = new Camera();
+    this.renderer = new Renderer();
 
     this.controls = new Controls();
+
     /**
      * Physics
      */
@@ -63,6 +63,8 @@ export default class Game {
     );
 
     this.physicWorld.addContactMaterial(defaultContactMaterial);
+
+    this.cannonDebugger = new CannonDebugger(this.scene, this.physicWorld, {});
 
     //Events
 
@@ -84,9 +86,11 @@ export default class Game {
 
   update() {
     if (this.world.ready) {
-      this.camera.update();
       this.renderer.update();
       this.world.update();
+      this.camera.update();
+
+      this.cannonDebugger.update();
     }
   }
 }

@@ -57,8 +57,8 @@ export default class Game {
       this.defaultMaterial,
       this.defaultMaterial,
       {
-        friction: 0,
-        restitution: 0.7,
+        friction: 0.1,
+        restitution: 0.3,
       }
     );
 

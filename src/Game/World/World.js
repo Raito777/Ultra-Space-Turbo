@@ -20,7 +20,7 @@ export default class World {
     this.spaceship = new Spaceship();
 
     this.thrust = 100;
-    this.rotation = 10;
+    this.rotation = 7;
     this.rollAngle = 10;
 
     // Wait for resources
@@ -31,7 +31,7 @@ export default class World {
       this.asteroids.push(
         new Asteroid(
           100,
-          { x: 300, y: 0, z: 0 },
+          { x: 500, y: 0, z: 0 },
           {
             x: getRandomFloat(-Math.PI * 2, Math.PI * 2),
             y: getRandomFloat(-Math.PI * 2, Math.PI * 2),
@@ -186,11 +186,11 @@ export default class World {
     const rollAxis = new CANNON.Vec3(0, 0, 1);
 
     if (this.game.controls.keys.Z) {
-      this.forces.y = -1 * this.rotation;
+      this.forces.y = 1 * this.rotation;
     }
 
     if (this.game.controls.keys.S) {
-      this.forces.y = 1 * this.rotation;
+      this.forces.y = -1 * this.rotation;
     }
 
     if (this.game.controls.keys.Q) {

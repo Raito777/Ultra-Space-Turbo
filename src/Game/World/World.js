@@ -86,13 +86,6 @@ export default class World {
       };
       this.debugFolder.add(debugObject, "clearAsteroids");
     }
-
-    // Test mesh
-    const testMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshBasicMaterial({ wireframe: true })
-    );
-    this.scene.add(testMesh);
   }
 
   setAsteroidsModel() {
@@ -215,5 +208,7 @@ export default class World {
     }
 
     this.spaceship.body.applyLocalForce(this.forces, new CANNON.Vec3(0, 0, -1));
+
+    this.spaceship.update();
   }
 }

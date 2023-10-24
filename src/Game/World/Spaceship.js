@@ -18,6 +18,8 @@ export default class Spaceship {
     this.resources = this.game.resources;
     // Setup
     this.position = 0;
+    this.leftLightOffset = new THREE.Vector3(-0.6, -0.8, -6);
+    this.rightLightOffset = new THREE.Vector3(0.6, -0.8, -6);
     // let previousMouseX = 0;
     // let spaceshipRotation = 0;
     // Contrôle de la souris
@@ -85,7 +87,40 @@ export default class Spaceship {
         child.castShadow = true;
       }
     });
+
+    this.leftLight = new THREE.PointLight(0xff9000, 2);
+    this.rightLight = new THREE.PointLight(0xff9000, 2);
+
+    const leftLightHelper = new THREE.PointLightHelper(this.leftLight, 1);
+    const rightLightHelper = new THREE.PointLightHelper(this.rightLight, 1);
+
+    this.scene.add(this.leftLight);
+    this.scene.add(this.rightLight);
+
+    this.scene.add(leftLightHelper);
+    this.scene.add(rightLightHelper);
   }
 
-  update() {}
+  updateLightsPosition() {
+    // Appliquez la rotation du vaisseau aux offsets
+    const leftLightPosition = this.leftLightOffset
+      .clone()
+      .applyEuler(this.model.rotation);
+    const rightLightPosition = this.rightLightOffset
+      .clone()
+      .applyEuler(this.model.rotation);
+
+    // Définissez la position des lumières
+    this.leftLight.position.copy(this.body.position).add(leftLightPosition);
+    this.rightLight.position.copy(this.body.position).add(rightLightPosition);
+
+    const mappedValue =
+      ((Math.abs(this.body.velocity.x) - 0) / (150 - 0)) * (5 - 0) + 0;
+    this.leftLight.intensity = mappedValue;
+    this.rightLight.intensity = mappedValue;
+  }
+
+  update() {
+    this.updateLightsPosition();
+  }
 }

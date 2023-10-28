@@ -97,12 +97,12 @@ export default class Spaceship {
     this.scene.add(this.leftLight);
     this.scene.add(this.rightLight);
 
+    //lights helpers
     this.scene.add(leftLightHelper);
     this.scene.add(rightLightHelper);
   }
 
   updateLightsPosition() {
-    // Appliquez la rotation du vaisseau aux offsets
     const leftLightPosition = this.leftLightOffset
       .clone()
       .applyEuler(this.model.rotation);
@@ -110,7 +110,6 @@ export default class Spaceship {
       .clone()
       .applyEuler(this.model.rotation);
 
-    // Définissez la position des lumières
     this.leftLight.position.copy(this.body.position).add(leftLightPosition);
     this.rightLight.position.copy(this.body.position).add(rightLightPosition);
 

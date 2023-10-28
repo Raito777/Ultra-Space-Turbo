@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import * as CANNON from "cannon-es";
+
 import Debug from "./Utils/Debug.js";
 
 import Sizes from "./Utils/Sizes.js";
@@ -8,6 +10,8 @@ import Renderer from "./Renderer.js";
 import World from "./World/World.js";
 import Resources from "./Utils/Resources.js";
 import sources from "./sources.js";
+import Controls from "./Controls.js";
+import CannonDebugger from "cannon-es-debugger";
 
 let instance = null;
 
@@ -32,9 +36,49 @@ export default class Game {
     this.time = new Time();
     this.scene = new THREE.Scene();
     this.resources = new Resources(sources);
-    this.camera = new Camera();
     this.renderer = new Renderer();
     this.world = new World();
+    console.log(this.world.spaceship);
+    this.camera = new Camera();
+    this.renderer = new Renderer();
+
+    this.controls = new Controls();
+
+    /**
+     * Physics
+     */
+    this.physicWorld = new CANNON.World();
+
+    this.physicWorld.broadphase = new CANNON.SAPBroadphase(this.physicWorld);
+    this.physicWorld.allowSleep = true;
+
+    this.defaultMaterial = new CANNON.Material("default");
+    const defaultContactMaterial = new CANNON.ContactMaterial(
+      this.defaultMaterial,
+      this.defaultMaterial,
+      {
+        friction: 0.1,
+        restitution: 0.3,
+      }
+    );
+
+    this.physicWorld.addContactMaterial(defaultContactMaterial);
+
+    this.showHitBoxes = false;
+    this.debugFolder = this.debug.ui.addFolder("debug");
+
+    if (this.debug.active) {
+      this.cannonDebugger = new CannonDebugger(this.scene, this.physicWorld, {
+        onInit(body, mesh) {
+          // Toggle visibiliy on "h" press
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "h") {
+              mesh.visible = !mesh.visible;
+            }
+          });
+        },
+      });
+    }
 
     //Events
 
@@ -55,7 +99,12 @@ export default class Game {
   }
 
   update() {
-    this.camera.update();
-    this.renderer.update();
+    if (this.world.ready) {
+      this.renderer.update();
+      this.world.update();
+      this.camera.update();
+
+      this.cannonDebugger.update();
+    }
   }
 }

@@ -8,9 +8,6 @@ export default class Resources extends EventEmitter {
 
     // Options
     this.sources = sources;
-
-    console.log(this.sources);
-
     // Setup
     this.items = {};
     this.toLoad = this.sources.length;
